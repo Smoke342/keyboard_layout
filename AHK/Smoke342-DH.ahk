@@ -1,13 +1,14 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance FORCE  ; Skip invocation dialog box and silently replace previously executing instance of this script.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-RShift & CapsLock::CapsLock
+RShift & CapsLock::CapsLock  ; Нужно, т.к. Capslock → LCtrl через PowerToys
 
 RAlt & SC029::Send ~  ; Через MSKLC символ не печатается, мешает этот скрипт
 RAlt & Backspace::Send {Blind}{RAlt Up}{Backspace}  ; Добавлено для удобства
 
+; Навигация
 SC029::Send {}  ; `
 SC029 & SC017::Send {Blind}{SC029 Up}{Up}  ; i
 SC029 & SC025::Send {Blind}{SC029 Up}{Down}  ; k
@@ -45,8 +46,22 @@ SC11D & SC038::Send {Blind}{SC11D Up}{.}  ; LAlt
 SC11D & SC022::Send {Blind}{SC11D Up}{+}  ; g
 SC11D & SC014::Send {Blind}{SC11D Up}{-}  ; t
 SC11D & SC010::Send {Blind}{SC11D Up}{*}  ; q
-SC11D & SC02C::Send {Blind}{SC11D Up}{/}  ; z
+SC11D & SC02C::Send {Blind}{SC11D Up}{NumpadDiv}  ; z
 SC11D & SC01D::Send {Blind}{SC11D Up}{Enter}  ; LCtrl
 SC11D & SC030::Send {Blind}{SC11D Up}{Backspace}  ; b
 SC11D & SC031::Send {Blind}{SC11D Up}{Backspace}  ; n
+SC11D & SC032::Send {Blind}{SC11D Up}{Backspace}  ; m
 SC11D & SC039::Send {Blind}{SC11D Up}{Space}  ; Space
+SC11D & SC001::Send {Blind}{SC11D Up}{Esc}  ; Esc
+;Стрелки NumPad
+SC11D & SC017::Send {Blind}{SC11D Up}{Up}  ; i
+SC11D & SC025::Send {Blind}{SC11D Up}{Down}  ; k
+SC11D & SC024::Send {Blind}{SC11D Up}{Left}  ; j
+SC11D & SC026::Send {Blind}{SC11D Up}{Right}  ; l
+SC11D & SC023::Send {Blind}{SC11D Up}{Home}  ; h
+SC11D & SC027::Send {Blind}{SC11D Up}{End}  ; ;
+SC11D & SC028::Send {Blind}{SC11D Up}{End}  ; '
+SC11D & SC016::Send {Blind}{SC11D Up}{PgUp}  ; u
+SC11D & SC015::Send {Blind}{SC11D Up}{PgUp}  ; y
+SC11D & SC018::Send {Blind}{SC11D Up}{PgDn}  ; o
+SC11D & SC019::Send {Blind}{SC11D Up}{PgDn}  ; p
