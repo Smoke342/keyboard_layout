@@ -28,11 +28,25 @@ SC029 & SC01F::LShift  ; s
 SC029 & SC012::LCtrl  ; e
 SC029 & SC011::LCtrl  ; w
 
-; На запас
-SC029 & SC010::Send {Blind}{SC029 Up}{}  ; q
-SC029 & SC01E::Send {Blind}{SC029 Up}{}  ; a
-SC029 & SC033::Send {Blind}{SC029 Up}{}  ; ,
-SC029 & SC034::Send {Blind}{SC029 Up}{}  ; .
-SC029 & SC01A::Send {Blind}{SC029 Up}{}  ; [
-SC029 & SC01B::Send {Blind}{SC029 Up}{}  ; ]
-SC029 & SC035::Send {Blind}{SC029 Up}{}  ; /
+;NumPad
+SC11D::Send {}  ; RCtrl
+SC11D & SC01E::Send {Blind}{SC11D Up}{0}  ; a
+SC11D & SC02D::Send {Blind}{SC11D Up}{1}  ; x
+SC11D & SC02E::Send {Blind}{SC11D Up}{2}  ; c
+SC11D & SC02F::Send {Blind}{SC11D Up}{3}  ; v
+SC11D & SC01F::Send {Blind}{SC11D Up}{4}  ; s
+SC11D & SC020::Send {Blind}{SC11D Up}{5}  ; d
+SC11D & SC021::Send {Blind}{SC11D Up}{6}  ; f
+SC11D & SC011::Send {Blind}{SC11D Up}{7}  ; w
+SC11D & SC012::Send {Blind}{SC11D Up}{8}  ; e
+SC11D & SC013::Send {Blind}{SC11D Up}{9}  ; r
+SC11D & SC02A::Send {Blind}{SC11D Up}{,}  ; LShift
+SC11D & SC038::Send {Blind}{SC11D Up}{.}  ; LAlt
+SC11D & SC022::Send {Blind}{SC11D Up}{+}  ; g
+SC11D & SC014::Send {Blind}{SC11D Up}{-}  ; t
+SC11D & SC010::Send {Blind}{SC11D Up}{*}  ; q
+SC11D & SC02C::Send {Blind}{SC11D Up}{/}  ; z
+SC11D & SC01D::Send {Blind}{SC11D Up}{Enter}  ; LCtrl
+SC11D & SC030::Send {Blind}{SC11D Up}{Backspace}  ; b
+SC11D & SC031::Send {Blind}{SC11D Up}{Backspace}  ; n
+SC11D & SC039::Send {Blind}{SC11D Up}{Space}  ; Space
