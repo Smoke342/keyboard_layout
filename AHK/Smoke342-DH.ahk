@@ -28,6 +28,8 @@ SC029 & SC020::LShift  ; d
 SC029 & SC01F::LShift  ; s
 SC029 & SC012::LCtrl  ; e
 SC029 & SC011::LCtrl  ; w
+SC029 & SC002::LAlt  ; 1
+SC029 & SC003::LAlt  ; 2
 
 ;NumPad
 SC11D::Send {}  ; RCtrl
