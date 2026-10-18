@@ -38,7 +38,7 @@ AltGr & т::Ъ
 ## Слой навигации
 При зажатии кнопки `~` будет активен слой навигации (настроено через скрипт [AHK](https://github.com/AutoHotkey/AutoHotkey)). На схеме раскладки клавиши этого слоя имеют зеленый цвет. Значение клавиш указаны на передней стороне клавиш.
 
-<img width="2033" height="684" alt="keyboard_layout_~" src="https://github.com/user-attachments/assets/8e4aabaf-4eda-4e3d-9061-56ba5bf9b263" />
+<img width="2031" height="681" alt="chrome_GbQHvTSii7" src="https://github.com/user-attachments/assets/6b36f42c-da95-48bd-94ef-a51ff8f2386d" />
 
 ## Слой NumPad
 При зажатии кнопки `RCtrl` будет активен слой NumPad (настроено через скрипт [AHK](https://github.com/AutoHotkey/AutoHotkey)).
