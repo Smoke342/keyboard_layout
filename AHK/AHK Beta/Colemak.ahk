@@ -1,41 +1,7 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance FORCE  ; Skip invocation dialog box and silently replace previously executing instance of this script.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-
-
-; ============================================================
-; Функция определения раскладки
-; ============================================================
-
-GetKeyboardLayout() {
-    WinID := WinExist("A")
-    if (!WinID)
-        WinID := DllCall("user32\GetForegroundWindow", "Ptr")
-    if (!WinID)
-        return 0
-
-    ; 1. Стандартный метод
-    ThreadID := DllCall("user32\GetWindowThreadProcessId", "Ptr", WinID, "UInt", 0, "UInt")
-    if (ThreadID) {
-        layout := DllCall("user32\GetKeyboardLayout", "Ptr", ThreadID, "Ptr") & 0xFFFF  ; layout ID = младшие 16 бит HKL
-        if (layout)
-            return layout
-    }
-
-    ; 2. Fallback через imm32 (консоль/UWP/диалоги)
-    hIME := DllCall("imm32\ImmGetDefaultIMEWnd", "Ptr", WinID, "Ptr")
-    if (hIME) {
-        imeThreadID := DllCall("user32\GetWindowThreadProcessId", "Ptr", hIME, "UInt", 0, "UInt")
-        if (imeThreadID && imeThreadID != ThreadID) {
-            layout := DllCall("user32\GetKeyboardLayout", "Ptr", imeThreadID, "Ptr") & 0xFFFF
-            if (layout)
-                return layout
-        }
-    }
-
-    return 0
-}
 
 
 ; ============================================================
@@ -48,8 +14,9 @@ GetKeyboardLayout() {
 RShift & CapsLock::CapsLock   ;  Сделано, т.к. LCtrl → CapsLock
 ;:*:@@`n::smoke342@gmail.com   ;  @@ + Enter - Сделано для быстрого ввода эл. почты
 CapsLock::LCtrl              ;  Уже есть в PowerToys (добавить только в крайнем случае). Если вкл., то → RShift & CapsLock::CapsLock работать не будет
-;#s::Send, +#s         ;  Сделать в PowerToys. Копирование изображения в буфер обмена.
-;#v::Send, ^+v         ;  Сделать в PowerToys в Расширенной вставке. Вставка без форматирования.
+#SC01F::Send, +#{SC01F}          ; Win+S - Копирование изображения в буфер обмена.
+;#SC02F::Send, ^+{SC02F}         ;Win+V - Вставка без форматирования. Сделать в PowerToys в Расширенной вставке. 
+
 
 ; ============================================================
 ; СМЕНА ЯЗЫКА
@@ -59,65 +26,6 @@ CapsLock::LCtrl              ;  Уже есть в PowerToys (добавить �
 SC00C::Send, !+8  ; - → ENG
 SC00D::Send, !+8  ; = → ENG
 SC02B::Send, !+9  ; \ → RUS
-
-; ============================================================
-; RUSSIAN-DH
-; ============================================================
-
-#If (GetKeyboardLayout() = 0x0419)
-
-SC01B::SC028
-SC027::SC034
-SC028::SC027
-;б::,
-;ю::.
-;.::б
-
-#If
-
-
-; ============================================================
-; ENGLISH-DH
-; ============================================================
-
-#If (GetKeyboardLayout() = 0x0409)
-
-; ---------- Верхний ряд ----------
-e::f      ; e -> f
-r::p      ; r -> p
-t::b      ; t -> b
-y::j      ; y -> j
-u::l      ; u -> l
-i::u      ; i -> u
-o::y      ; o -> y
-p::return ; p (блок)
-[::return ; [ (блок)
-]::return ; ] (блок)
-
-; ---------- Средний ряд ----------
-s::r      ; s -> r
-d::s      ; d -> s
-f::t      ; f -> t
-h::m      ; h -> m
-j::n      ; j -> n
-k::e      ; k -> e
-l::i      ; l -> i
-`;::o     ; ; -> o
-'::return ; ' (блок)
-
-; ---------- Нижний ряд ----------
-z::x      ; z -> x
-x::c      ; x -> c
-c::d      ; c -> d
-b::z      ; b -> z
-n::k      ; n -> k
-m::h      ; m -> h
-+,::`;    ; Shift+, -> ;
-+.::'     ; Shift+. -> '
-/::return ; / (блок)
-
-#If
-
 
 ; ============================================================
 ; ОТКЛЮЧЕНИЕ СЛОЯ SHIFT В РЯДЕ ЦИФР
@@ -137,529 +45,118 @@ $+-::Return   ; -
 $+=::Return   ; =
 $+\::Return   ; \
 
-;Горячие клавиши как на qwerty
-
 ; ============================================================
-; ОСНОВНЫЕ МОДИФИКАТОРЫ
+; RUSSIAN-DH
 ; ============================================================
+#If (GetLayout() = "RU")
 
-; ========== CTRL ==========
+; 1. Маленькие буквы и базовые знаки
+$sc01B::Send % GetKeyState("CapsLock", "T") ? "Э" : "э"   ; Физическая [Х / ъ] -> э/Э
+$sc027::Send % GetKeyState("CapsLock", "T") ? "Ю" : "ю"   ; Физическая [Ж / ;] -> ю/Ю
+$sc028::Send % GetKeyState("CapsLock", "T") ? "Ж" : "ж"   ; Физическая [Э / '] -> ж/Ж
+$sc033::Send `,  ; Физическая [Б / ,] -> ,
+$sc034::Send .   ; Физическая [Ю / .] -> .
+$sc035::Send % GetKeyState("CapsLock", "T") ? "Б" : "б"   ; Физическая [/ / .] -> б/Б
 
-;Верхний ряд
-^e::^e
-^r::^r
-^t::^t
-^y::^y
-^u::^u
-^i::^i
-^o::^o
-^p::^p
-^[::^[
-^]::^]
-;Средний ряд
-^s::^s
-^d::^d
-^f::^f
-^h::^h
-^j::^j
-^k::^k
-^l::^l
-^;::^;
-^'::^'
-;Нижний ряд
-^z::^z
-^x::^x
-^c::^c
-^b::^b
-^n::^n
-^m::^m
-^/::^/
-;Ряд цифр
-^-::^-
-^=::^=
-^\::^\
+; 2. Большие буквы и Shift-знаки
+$+sc01B::Send % GetKeyState("CapsLock", "T") ? "э" : "Э"  ; Инверсия при зажатом Shift
+$+sc027::Send % GetKeyState("CapsLock", "T") ? "ю" : "Ю"
+$+sc028::Send % GetKeyState("CapsLock", "T") ? "ж" : "Ж"
+$+sc033::Send `; ; Shift + [Б / ,] -> ;
+$+sc034::Send :  ; Shift + [Ю / .] -> :
+$+sc035::Send % GetKeyState("CapsLock", "T") ? "б" : "Б"
 
-
-; ========== ALT ==========
-
-;Верхний ряд
-!e::!e
-!r::!r
-!t::!t
-!y::!y
-!u::!u
-!i::!i
-!o::!o
-!p::!p
-![::![
-!]::!]
-;Средний ряд
-!s::!s
-!d::!d
-!f::!f
-!h::!h
-!j::!j
-!k::!k
-!l::!l
-!;::!;
-!'::!'
-;Нижний ряд
-!z::!z
-!x::!x
-!c::!c
-!b::!b
-!n::!n
-!m::!m
-!/::!/
-;Ряд цифр
-!-::!-
-!=::!=
-!\::!\
-
-
-; ========== WIN ==========
-
-;Верхний ряд
-#e::#e
-#r::#r
-#t::#t
-#y::#y
-#u::#u
-#i::#i
-#o::#o
-#p::#p
-#[::#[
-#]::#]
-;Средний ряд
-#s::#s
-#d::#d
-#f::#f
-#h::#h
-#j::#j
-#k::#k
-#l::#l
-#;::#;
-#'::#'
-;Нижний ряд
-#z::#z
-#x::#x
-#c::#c
-#b::#b
-#n::#n
-#m::#m
-#/::#/
-;Ряд цифр
-#-::#-
-#=::#=
-#\::#\
-
+#If
 
 
 ; ============================================================
-; ВСЕ КОМБИНАЦИИ МОДИФИКАТОРОВ
+; ENGLISH-DH
 ; ============================================================
+#If (GetLayout() = "EN")
 
-; ========== CTRL+ALT ==========
+; ---------- Верхний ряд ----------
+$sc012::Send % GetKeyState("CapsLock", "T") ? "F" : "f"   ; e -> f/F
+$+sc012::Send % GetKeyState("CapsLock", "T") ? "f" : "F"
+$sc013::Send % GetKeyState("CapsLock", "T") ? "P" : "p"   ; r -> p/P
+$+sc013::Send % GetKeyState("CapsLock", "T") ? "p" : "P"
+$sc014::Send % GetKeyState("CapsLock", "T") ? "B" : "b"   ; t -> b/B
+$+sc014::Send % GetKeyState("CapsLock", "T") ? "b" : "B"
+$sc015::Send % GetKeyState("CapsLock", "T") ? "J" : "j"   ; y -> j/J
+$+sc015::Send % GetKeyState("CapsLock", "T") ? "j" : "J"
+$sc016::Send % GetKeyState("CapsLock", "T") ? "L" : "l"   ; u -> l/L
+$+sc016::Send % GetKeyState("CapsLock", "T") ? "l" : "L"
+$sc017::Send % GetKeyState("CapsLock", "T") ? "U" : "u"   ; i -> u/U
+$+sc017::Send % GetKeyState("CapsLock", "T") ? "u" : "U"
+$sc018::Send % GetKeyState("CapsLock", "T") ? "Y" : "y"   ; o -> y/Y
+$+sc018::Send % GetKeyState("CapsLock", "T") ? "y" : "Y"
+$sc019::return       ; p (блок)
+$+sc019::return
+$sc01A::return       ; [ (блок)
+$+sc01A::return
+$sc01B::return       ; ] (блок)
+$+sc01B::return
 
-;Верхний ряд
-^!e::^!e
-^!r::^!r
-^!t::^!t
-^!y::^!y
-^!u::^!u
-^!i::^!i
-^!o::^!o
-^!p::^!p
-^![::^![
-^!]::^!]
-;Средний ряд
-^!s::^!s
-^!d::^!d
-^!f::^!f
-^!h::^!h
-^!j::^!j
-^!k::^!k
-^!l::^!l
-^!;::^!;
-^!'::^!'
-;Нижний ряд
-^!z::^!z
-^!x::^!x
-^!c::^!c
-^!b::^!b
-^!n::^!n
-^!m::^!m
-^!/::^!/
-;Ряд цифр
-^!-::^!-
-^!=::^!=
-^!\::^!\
+; ---------- Средний ряд ----------
+$sc01F::Send % GetKeyState("CapsLock", "T") ? "R" : "r"   ; s -> r/R
+$+sc01F::Send % GetKeyState("CapsLock", "T") ? "r" : "R"
+$sc020::Send % GetKeyState("CapsLock", "T") ? "S" : "s"   ; d -> s/S
+$+sc020::Send % GetKeyState("CapsLock", "T") ? "s" : "S"
+$sc021::Send % GetKeyState("CapsLock", "T") ? "T" : "t"   ; f -> t/T
+$+sc021::Send % GetKeyState("CapsLock", "T") ? "t" : "T"
+$sc023::Send % GetKeyState("CapsLock", "T") ? "M" : "m"   ; h -> m/M
+$+sc023::Send % GetKeyState("CapsLock", "T") ? "m" : "M"
+$sc024::Send % GetKeyState("CapsLock", "T") ? "N" : "n"   ; j -> n/N
+$+sc024::Send % GetKeyState("CapsLock", "T") ? "n" : "N"
+$sc025::Send % GetKeyState("CapsLock", "T") ? "E" : "e"   ; k -> e/E
+$+sc025::Send % GetKeyState("CapsLock", "T") ? "e" : "E"
+$sc026::Send % GetKeyState("CapsLock", "T") ? "I" : "i"   ; l -> i/I
+$+sc026::Send % GetKeyState("CapsLock", "T") ? "i" : "I"
+$sc027::Send % GetKeyState("CapsLock", "T") ? "O" : "o"   ; ; -> o/O
+$+sc027::Send % GetKeyState("CapsLock", "T") ? "o" : "O"
+$sc028::return       ; ' (блок)
+$+sc028::return
 
+; ---------- Нижний ряд ----------
+$sc02C::Send % GetKeyState("CapsLock", "T") ? "X" : "x"   ; z -> x/X
+$+sc02C::Send % GetKeyState("CapsLock", "T") ? "x" : "X"
+$sc02D::Send % GetKeyState("CapsLock", "T") ? "C" : "c"   ; x -> c/C
+$+sc02D::Send % GetKeyState("CapsLock", "T") ? "c" : "C"
+$sc02E::Send % GetKeyState("CapsLock", "T") ? "D" : "d"   ; c -> d/D
+$+sc02E::Send % GetKeyState("CapsLock", "T") ? "d" : "D"
+$sc030::Send % GetKeyState("CapsLock", "T") ? "Z" : "z"   ; b -> z/Z
+$+sc030::Send % GetKeyState("CapsLock", "T") ? "z" : "Z"
+$sc031::Send % GetKeyState("CapsLock", "T") ? "K" : "k"   ; n -> k/K
+$+sc031::Send % GetKeyState("CapsLock", "T") ? "k" : "K"
+$sc032::Send % GetKeyState("CapsLock", "T") ? "H" : "h"   ; m -> h/H
+$+sc032::Send % GetKeyState("CapsLock", "T") ? "h" : "H"
 
-; ========== CTRL+SHIFT ==========
-;Верхний ряд
-^+e::^+e
-^+r::^+r
-^+t::^+t
-^+y::^+y
-^+u::^+u
-^+i::^+i
-^+o::^+o
-^+p::^+p
-^+[::^+[
-^+]::^+]
-;Средний ряд
-^+s::^+s
-^+d::^+d
-^+f::^+f
-^+h::^+h
-^+j::^+j
-^+k::^+k
-^+l::^+l
-^+;::^+;
-^+'::^+'
-;Нижний ряд
-^+z::^+z
-^+x::^+x
-^+c::^+c
-^+b::^+b
-^+n::^+n
-^+m::^+m
-^+/::^+/
-;Ряд цифр
-^+-::^+-
-^+=::^+=
-^+\::^+\
+$+sc033::Send `; ; Shift + , -> ;
+$sc034::Send .       ; . -> .
+$+sc034::Send :  ; Shift + . -> '
+$sc035::return       ; / (блок)
+$+sc035::return
 
-; ========== CTRL+WIN ==========
-
-;Верхний ряд
-^#e::^#e
-^#r::^#r
-^#t::^#t
-^#y::^#y
-^#u::^#u
-^#i::^#i
-^#o::^#o
-^#p::^#p
-^#[::^#[
-^#]::^#]
-;Средний ряд
-^#s::^#s
-^#d::^#d
-^#f::^#f
-^#h::^#h
-^#j::^#j
-^#k::^#k
-^#l::^#l
-^#;::^#;
-^#'::^#'
-;Нижний ряд
-^#z::^#z
-^#x::^#x
-^#c::^#c
-^#b::^#b
-^#n::^#n
-^#m::^#m
-^#/::^#/
-;Ряд цифр
-^#-::^#-
-^#=::^#=
-^#\::^#\
+#If
 
 
-; ========== ALT+SHIFT ==========
+; ============================================================
+; НАДЁЖНАЯ ФУНКЦИЯ ОПРЕДЕЛЕНИЯ РАСКЛАДКИ
+; ============================================================
+GetLayout() {
+    WinID := WinExist("A")
+    if (!WinID)
+        WinID := DllCall("user32\GetForegroundWindow", "Ptr")
+    if (!WinID)
+        return "EN"
 
-;Верхний ряд
-!+e::!+e
-!+r::!+r
-!+t::!+t
-!+y::!+y
-!+u::!+u
-!+i::!+i
-!+o::!+o
-!+p::!+p
-!+[::!+[
-!+]::!+]
-;Средний ряд
-!+s::!+s
-!+d::!+d
-!+f::!+f
-!+h::!+h
-!+j::!+j
-!+k::!+k
-!+l::!+l
-!+;::!+;
-!+'::!+'
-;Нижний ряд
-!+z::!+z
-!+x::!+x
-!+c::!+c
-!+b::!+b
-!+n::!+n
-!+m::!+m
-!+/::!+/
-;Ряд цифр
-!+-::!+-
-!+=::!+=
-!+\::!+\
-
-
-; ========== ALT+WIN ==========
-
-;Верхний ряд
-!#e::!#e
-!#r::!#r
-!#t::!#t
-!#y::!#y
-!#u::!#u
-!#i::!#i
-!#o::!#o
-!#p::!#p
-!#[::!#[
-!#]::!#]
-;Средний ряд
-!#s::!#s
-!#d::!#d
-!#f::!#f
-!#h::!#h
-!#j::!#j
-!#k::!#k
-!#l::!#l
-!#;::!#;
-!#'::!#'
-;Нижний ряд
-!#z::!#z
-!#x::!#x
-!#c::!#c
-!#b::!#b
-!#n::!#n
-!#m::!#m
-!#/::!#/
-;Ряд цифр
-!#-::!#-
-!#=::!#=
-!#\::!#\
-
-
-; ========== SHIFT+WIN ==========
-
-;Верхний ряд
-+#e::+#e
-+#r::+#r
-+#t::+#t
-+#y::+#y
-+#u::+#u
-+#i::+#i
-+#o::+#o
-+#p::+#p
-+#[::+#[
-+#]::+#]
-;Средний ряд
-+#s::+#s
-+#d::+#d
-+#f::+#f
-+#h::+#h
-+#j::+#j
-+#k::+#k
-+#l::+#l
-+#;::+#;
-+#'::+#'
-;Нижний ряд
-+#z::+#z
-+#x::+#x
-+#c::+#c
-+#b::+#b
-+#n::+#n
-+#m::+#m
-+#/::+#/
-;Ряд цифр
-+#-::+#-
-+#=::+#=
-+#\::+#\
-
-
-; ========== CTRL+ALT+SHIFT ==========
-
-;Верхний ряд
-^!+e::^!+e
-^!+r::^!+r
-^!+t::^!+t
-^!+y::^!+y
-^!+u::^!+u
-^!+i::^!+i
-^!+o::^!+o
-^!+p::^!+p
-^!+[::^!+[
-^!+]::^!+]
-;Средний ряд
-^!+s::^!+s
-^!+d::^!+d
-^!+f::^!+f
-^!+h::^!+h
-^!+j::^!+j
-^!+k::^!+k
-^!+l::^!+l
-^!+;::^!+;
-^!+'::^!+'
-;Нижний ряд
-^!+z::^!+z
-^!+x::^!+x
-^!+c::^!+c
-^!+b::^!+b
-^!+n::^!+n
-^!+m::^!+m
-^!+/::^!+/
-;Ряд цифр
-^!+-::^!+-
-^!+=::^!+=
-^!+\::^!+\
-
-
-; ========== CTRL+ALT+WIN ==========
-
-;Верхний ряд
-^!#e::^!#e
-^!#r::^!#r
-^!#t::^!#t
-^!#y::^!#y
-^!#u::^!#u
-^!#i::^!#i
-^!#o::^!#o
-^!#p::^!#p
-^!#[::^!#[
-^!#]::^!#]
-;Средний ряд
-^!#s::^!#s
-^!#d::^!#d
-^!#f::^!#f
-^!#h::^!#h
-^!#j::^!#j
-^!#k::^!#k
-^!#l::^!#l
-^!#;::^!#;
-^!#'::^!#'
-;Нижний ряд
-^!#z::^!#z
-^!#x::^!#x
-^!#c::^!#c
-^!#b::^!#b
-^!#n::^!#n
-^!#m::^!#m
-^!#/::^!#/
-;Ряд цифр
-^!#-::^!#-
-^!#=::^!#=
-^!#\::^!#\
-
-
-; ========== CTRL+SHIFT+WIN ==========
-
-;Верхний ряд
-^+#e::^+#e
-^+#r::^+#r
-^+#t::^+#t
-^+#y::^+#y
-^+#u::^+#u
-^+#i::^+#i
-^+#o::^+#o
-^+#p::^+#p
-^+#[::^+#[
-^+#]::^+#]
-;Средний ряд
-^+#s::^+#s
-^+#d::^+#d
-^+#f::^+#f
-^+#h::^+#h
-^+#j::^+#j
-^+#k::^+#k
-^+#l::^+#l
-^+#;::^+#;
-^+#'::^+#'
-;Нижний ряд
-^+#z::^+#z
-^+#x::^+#x
-^+#c::^+#c
-^+#b::^+#b
-^+#n::^+#n
-^+#m::^+#m
-^+#/::^+#/
-;Ряд цифр
-^+#-::^+#-
-^+#=::^+#=
-^+#\::^+#\
-
-
-; ========== ALT+SHIFT+WIN ==========
-
-;Верхний ряд
-!+#e::!+#e
-!+#r::!+#r
-!+#t::!+#t
-!+#y::!+#y
-!+#u::!+#u
-!+#i::!+#i
-!+#o::!+#o
-!+#p::!+#p
-!+#[::!+#[
-!+#]::!+#]
-;Средний ряд
-!+#s::!+#s
-!+#d::!+#d
-!+#f::!+#f
-!+#h::!+#h
-!+#j::!+#j
-!+#k::!+#k
-!+#l::!+#l
-!+#;::!+#;
-!+#'::!+#'
-;Нижний ряд
-!+#z::!+#z
-!+#x::!+#x
-!+#c::!+#c
-!+#b::!+#b
-!+#n::!+#n
-!+#m::!+#m
-!+#/::!+#/
-;Ряд цифр
-!+#-::!+#-
-!+#=::!+#=
-!+#\::!+#\
-
-
-; ========== CTRL+ALT+SHIFT+WIN ==========
-
-;Верхний ряд
-^!+#e::^!+#e
-^!+#r::^!+#r
-^!+#t::^!+#t
-^!+#y::^!+#y
-^!+#u::^!+#u
-^!+#i::^!+#i
-^!+#o::^!+#o
-^!+#p::^!+#p
-^!+#[::^!+#[
-^!+#]::^!+#]
-;Средний ряд
-^!+#s::^!+#s
-^!+#d::^!+#d
-^!+#f::^!+#f
-^!+#h::^!+#h
-^!+#j::^!+#j
-^!+#k::^!+#k
-^!+#l::^!+#l
-^!+#;::^!+#;
-^!+#'::^!+#'
-;Нижний ряд
-^!+#z::^!+#z
-^!+#x::^!+#x
-^!+#c::^!+#c
-^!+#b::^!+#b
-^!+#n::^!+#n
-^!+#m::^!+#m
-^!+#/::^!+#/
-;Ряд цифр
-^!+#-::^!+#-
-^!+#=::^!+#=
-^!+#\::^!+#\
+    ThreadID := DllCall("user32\GetWindowThreadProcessId", "Ptr", WinID, "UInt", 0, "UInt")
+    if (ThreadID) {
+        layout := DllCall("user32\GetKeyboardLayout", "Ptr", ThreadID, "Ptr") & 0xFFFF
+        if (layout = 1049)  ; Десятичный код русской раскладки
+            return "RU"
+        if (layout = 1033)  ; Десятичный код английской раскладки
+            return "EN"
+    }
+    return "EN"
+}
 
