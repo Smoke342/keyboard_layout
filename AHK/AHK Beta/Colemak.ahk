@@ -8,8 +8,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; РАЗНОЕ
 ; ============================================================
 
-; Поставить запуск от имени администратора файлов AutoHotkeyU64 и AutoHotkeyU64_UIA "C:\Program Files\AutoHotkey\v1.1.37.02", а так же всех приложений, использующих важные горячие клавиши (пример - Ditto)
-; Посмотреть, не кофликтует ли скрипт с важными горячими клавишами приложений (пример - PowerToys)
+; Поставить запуск от имени администратора файлов AutoHotkeyU64 и AutoHotkeyU64_UIA по пути C:\Program Files\AutoHotkey\v1.1.37.02
+; Посмотреть, не кофликтует ли скрипт с важными горячими клавишами приложений (пример - PowerToys, Ditto, Mahou)
 ; Ctrl+Shift+V - работает нестабильно. Используй Ditto (ЛКМ и Enter поставить на копирование, удалить типы объектов HTML Format и Rich Text Format)
 
 
@@ -76,12 +76,12 @@ SC02B::Send, !+9  ; \ → RU
 ; ----- Цифры -----
 SC01D & SC002::Send {Blind}{SC01D Up}{«}          ; 1    → «
 SC01D & SC003::Send {Blind}{SC01D Up}{»}          ; 2    → »
-SC01D & SC004::Send {Blind}{SC01D Up}{Ь}          ; 3    → Ь
-SC01D & SC005::Send {Blind}{SC01D Up}{Ъ}          ; 4    → Ъ
-SC01D & SC006::Return                             ; 5    → (блок)
-SC01D & SC007::Return                             ; 6    → (блок)
-SC01D & SC008::Return                             ; 7    → (блок)
-SC01D & SC009::Return                             ; 8    → (блок)
+SC01D & SC004::Send {Blind}{SC01D Up}{„}		  ; 3    → „
+SC01D & SC005::Send {Blind}{SC01D Up}{“}		  ; 4    → “
+SC01D & SC006::Send {Blind}{SC01D Up}{Ь}          ; 5    → Ь
+SC01D & SC007::Send {Blind}{SC01D Up}{Ъ}          ; 6    → Ъ
+SC01D & SC008::Send {Blind}{SC01D Up}{≈}          ; 7    → ≈
+SC01D & SC009::Send {Blind}{SC01D Up}{↔}          ; 8    → ↔
 SC01D & SC00A::Send {Blind}{SC01D Up}{←}          ; 9    → ←
 SC01D & SC00B::Send {Blind}{SC01D Up}{→}          ; 0    → →
 SC01D & SC00C::Return                             ; -    → (блок)
@@ -100,14 +100,14 @@ SC01D & SC017::Send {Blind}{SC01D Up}{*}          ; i    → *
 SC01D & SC018::Send {Blind}{SC01D Up}{#}          ; o    → #
 SC01D & SC019::Send {Blind}{SC01D Up}{$}          ; p    → $
 SC01D & SC01A::Send {Blind}{SC01D Up}{=}          ; [    → =
-SC01D & SC01B::Send {Blind}{SC01D Up}{=}          ; ]    → =
+SC01D & SC01B::Send {Blind}{SC01D Up}{№}          ; ]    → =
 
 ; ----- Средний ряд -----
 SC01D & SC01E::Send {Blind}{SC01D Up}{?}          ; a    → ?
 SC01D & SC01F::Send {Blind}{SC01D Up}{"}          ; s    → "
 SC01D & SC020::Send {Blind}{SC01D Up}{`{}         ; d    → {
 SC01D & SC021::Send {Blind}{SC01D Up}{`}}         ; f    → }
-SC01D & SC022::Send {Blind}{SC01D Up}{``}         ; g    → `
+SC01D & SC022::Send {Blind}{SC01D Up}{~}          ; g    → `
 SC01D & SC023::Send {Blind}{SC01D Up}{``}         ; h    → `
 SC01D & SC024::Send {Blind}{SC01D Up}{(}          ; j    → (
 SC01D & SC025::Send {Blind}{SC01D Up}{)}          ; k    → )
@@ -136,12 +136,12 @@ SC01D & SC039::Send {Blind}{SC01D Up}{Space}      ; Space → Space
 ; ----- Цифры -----
 RCtrl & SC002::Send {Blind}{RCtrl Up}{«}          ; 1    → «
 RCtrl & SC003::Send {Blind}{RCtrl Up}{»}          ; 2    → »
-RCtrl & SC004::Send {Blind}{RCtrl Up}{Ь}          ; 3    → Ь
-RCtrl & SC005::Send {Blind}{RCtrl Up}{Ъ}          ; 4    → Ъ
-RCtrl & SC006::Return                             ; 5    → (блок)
-RCtrl & SC007::Return                             ; 6    → (блок)
-RCtrl & SC008::Return                             ; 7    → (блок)
-RCtrl & SC009::Return                             ; 8    → (блок)
+RCtrl & SC004::Send {Blind}{RCtrl Up}{„}		  ; 3    → „
+RCtrl & SC005::Send {Blind}{RCtrl Up}{“}		  ; 4    → “
+RCtrl & SC006::Send {Blind}{RCtrl Up}{Ь}          ; 5    → Ь
+RCtrl & SC007::Send {Blind}{RCtrl Up}{Ъ}          ; 6    → Ъ
+RCtrl & SC008::Send {Blind}{RCtrl Up}{≈}          ; 7    → ≈
+RCtrl & SC009::Send {Blind}{RCtrl Up}{↔}          ; 8    → ↔
 RCtrl & SC00A::Send {Blind}{RCtrl Up}{←}          ; 9    → ←
 RCtrl & SC00B::Send {Blind}{RCtrl Up}{→}          ; 0    → →
 RCtrl & SC00C::Return                             ; -    → (блок)
@@ -160,14 +160,14 @@ RCtrl & SC017::Send {Blind}{RCtrl Up}{*}          ; i    → *
 RCtrl & SC018::Send {Blind}{RCtrl Up}{#}          ; o    → #
 RCtrl & SC019::Send {Blind}{RCtrl Up}{$}          ; p    → $
 RCtrl & SC01A::Send {Blind}{RCtrl Up}{=}          ; [    → =
-RCtrl & SC01B::Send {Blind}{RCtrl Up}{=}          ; ]    → =
+RCtrl & SC01B::Send {Blind}{RCtrl Up}{№}          ; ]    → =
 
 ; ----- Средний ряд -----
 RCtrl & SC01E::Send {Blind}{RCtrl Up}{?}          ; a    → ?
 RCtrl & SC01F::Send {Blind}{RCtrl Up}{"}          ; s    → "
 RCtrl & SC020::Send {Blind}{RCtrl Up}{`{}         ; d    → {
 RCtrl & SC021::Send {Blind}{RCtrl Up}{`}}         ; f    → }
-RCtrl & SC022::Send {Blind}{RCtrl Up}{``}         ; g    → `
+RCtrl & SC022::Send {Blind}{RCtrl Up}{~}          ; g    → `
 RCtrl & SC023::Send {Blind}{RCtrl Up}{``}         ; h    → `
 RCtrl & SC024::Send {Blind}{RCtrl Up}{(}          ; j    → (
 RCtrl & SC025::Send {Blind}{RCtrl Up}{)}          ; k    → )
