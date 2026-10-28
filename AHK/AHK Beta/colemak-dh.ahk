@@ -1,7 +1,9 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance FORCE  ; Skip invocation dialog box and silently replace previously executing instance of this script.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+Process, Priority,, High
+#KeyHistory 0
 
 
 ; ============================================================
@@ -10,7 +12,24 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 ; Поставить запуск от имени администратора файлов AutoHotkeyU64 и AutoHotkeyU64_UIA по пути C:\Program Files\AutoHotkey\v1.1.37.02
 ; Посмотреть, не кофликтует ли скрипт с важными горячими клавишами приложений (пример - PowerToys, Ditto, Mahou)
-; Ctrl+Shift+V - работает нестабильно. Используй Ditto (ЛКМ и Enter поставить на копирование, удалить типы объектов HTML Format и Rich Text Format)
+; В целом все горячие клавиши работают стандартно, в очень редких случаях что-то может не работать, на это влияют сторонние приложения или этот скрипт
+; Горячие клавиши с Ctrl нужно использовать через переназначеный CapsLock → LCtrl. В редких случаях работает только LCtrl, например Ctrl+Alt+Delete
+; В Mahou назначить горячие клавиши: Перевод - Alt+Shift+Ctrl; Транслитерация - Ctrl+Win+Alt
+; В Ditto нужно изменить настройки для вставки без форматирования в Word, т.к. ^+v в нем не поддерживается по умолчанию - ЛКМ и Enter поставить на копирование, удалить типы объектов HTML Format и Rich Text Format
+; В Word нужно изменить параметр - Файл → Параметры → Дополнительно → Раздел "Вырезание, копирование и вставка" → Снять чекбокс "Показывать кнопки возможностей вставки при вставке содержимого"
+; Есть несущественный баг в RU раскладке - при одновременном зажатии RAlt+LCtrl+любой_символ → отпустить RAlt → ввод любого символа - должны печататься символы, но печатаются буквы. Это из-за AltGr в RU раскладке. Баг можно починить только созданием RU раскладки в MSKLC с обычным RAlt (не забыть поменять в функции определения раскладки код RU)
+
+
+; ===== Фикс слоя Ctrl =====
+~*RCtrl Up::
+    if GetKeyState("SC01D", "P")
+    {
+        Send {Blind}{SC01D Up}
+        KeyWait, SC01D, T0.01
+        if GetKeyState("SC01D", "P")
+            dllcall("keybd_event", int, 0x11, int, 0x1D, int, 0, int, 0)
+    }
+return
 
 
 ; ===== CapsLock → LCtrl =====
@@ -73,6 +92,8 @@ SC02B::Send, !+9  ; \ → RU
 
 ; ===== Символы LCtrl =====
 
+#If !GetKeyState("RCtrl", "P")
+
 ; ----- Цифры -----
 SC01D & SC002::Send {Blind}{SC01D Up}{«}          ; 1    → «
 SC01D & SC003::Send {Blind}{SC01D Up}{»}          ; 2    → »
@@ -100,7 +121,7 @@ SC01D & SC017::Send {Blind}{SC01D Up}{*}          ; i    → *
 SC01D & SC018::Send {Blind}{SC01D Up}{#}          ; o    → #
 SC01D & SC019::Send {Blind}{SC01D Up}{$}          ; p    → $
 SC01D & SC01A::Send {Blind}{SC01D Up}{=}          ; [    → =
-SC01D & SC01B::Send {Blind}{SC01D Up}{№}          ; ]    → =
+SC01D & SC01B::Send {Blind}{SC01D Up}{№}          ; ]    → №
 
 ; ----- Средний ряд -----
 SC01D & SC01E::Send {Blind}{SC01D Up}{?}          ; a    → ?
@@ -128,10 +149,14 @@ SC01D & SC034::Send {Blind}{SC01D Up}{|}          ; .    → |
 SC01D & SC035::Send {Blind}{SC01D Up}{^}          ; /    → ^
 
 ; ----- Служебные -----
+SC01D & SC00E::Send {Blind}{SC01D Up}{Backspace}  ; Backspace прожимается как обычно
 SC01D & SC039::Send {Blind}{SC01D Up}{Space}      ; Space → Space
+#If
 
 
 ; ===== Символы RCtrl =====
+
+#If !GetKeyState("SC01D", "P")
 
 ; ----- Цифры -----
 RCtrl & SC002::Send {Blind}{RCtrl Up}{«}          ; 1    → «
@@ -160,7 +185,7 @@ RCtrl & SC017::Send {Blind}{RCtrl Up}{*}          ; i    → *
 RCtrl & SC018::Send {Blind}{RCtrl Up}{#}          ; o    → #
 RCtrl & SC019::Send {Blind}{RCtrl Up}{$}          ; p    → $
 RCtrl & SC01A::Send {Blind}{RCtrl Up}{=}          ; [    → =
-RCtrl & SC01B::Send {Blind}{RCtrl Up}{№}          ; ]    → =
+RCtrl & SC01B::Send {Blind}{RCtrl Up}{№}          ; ]    → №
 
 ; ----- Средний ряд -----
 RCtrl & SC01E::Send {Blind}{RCtrl Up}{?}          ; a    → ?
@@ -188,7 +213,75 @@ RCtrl & SC034::Send {Blind}{RCtrl Up}{|}          ; .    → |
 RCtrl & SC035::Send {Blind}{RCtrl Up}{^}          ; /    → ^
 
 ; ----- Служебные -----
+RCtrl & SC00E::Send {Blind}{RCtrl Up}{Backspace}  ; Backspace прожимается как обычно
 RCtrl & SC039::Send {Blind}{RCtrl Up}{Space}      ; Space → Space
+#If
+
+
+; ===== ТОЧЕЧНОЕ ГЛУШЕНИЕ КЛАВИШ ИЗ СЛОЕВ ПРИ ДВУХ ЗАЖАТЫХ CTRL =====
+
+#If GetKeyState("SC01D", "P") && GetKeyState("RCtrl", "P")
+
+; ----- Цифры -----
+; Цифры и знаки верхнего ряда
+*SC002:: ; 1
+*SC003:: ; 2
+*SC004:: ; 3
+*SC005:: ; 4
+*SC006:: ; 5
+*SC007:: ; 6
+*SC008:: ; 7
+*SC009:: ; 8
+*SC00A:: ; 9
+*SC00B:: ; 0
+*SC00C:: ; -
+*SC00D:: ; =
+*SC02B:: ; \
+*SC00E:: ; Backspace
+
+; ----- Верхний ряд -----
+*SC010:: ; q
+*SC011:: ; w
+*SC012:: ; e
+*SC013:: ; r
+*SC014:: ; t
+*SC015:: ; y
+*SC016:: ; u
+*SC017:: ; i
+*SC018:: ; o
+*SC019:: ; p
+*SC01A:: ; [
+*SC01B:: ; ]
+
+; ----- Средний ряд -----
+*SC01E:: ; a
+*SC01F:: ; s
+*SC020:: ; d
+*SC021:: ; f
+*SC022:: ; g
+*SC023:: ; h
+*SC024:: ; j
+*SC025:: ; k
+*SC026:: ; l
+*SC027:: ; ;
+*SC028:: ; '
+
+; ----- Нижний ряд -----
+*SC02C:: ; z
+*SC02D:: ; x
+*SC02E:: ; c
+*SC02F:: ; v
+*SC030:: ; b
+*SC031:: ; n
+*SC032:: ; m
+*SC033:: ; ,
+*SC034:: ; .
+*SC035:: ; /
+
+; ----- Служебные -----
+*SC039:: ; Space
+
+#If
 
 
 ; ===== Навигация =====
@@ -344,8 +437,8 @@ return
 
 	$SC035::Send % GetKeyState("CapsLock", "T") ? "Б" : "б"   ; . → б
 	$+SC035::Send % GetKeyState("CapsLock", "T") ? "б" : "Б"  ; , → Б
-
-	$+SC032::Send % GetKeyState("CapsLock", "T") ? "ь" : "ъ"  ; Ь → ъ
+	
+	$+SC032::Send % GetKeyState("CapsLock", "T") ? "Ъ" : "ъ"  ; Ь → ъ
 
 #If
 
