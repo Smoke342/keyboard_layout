@@ -1,4 +1,4 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance FORCE  ; Skip invocation dialog box and silently replace previously executing instance of this script.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -11,16 +11,21 @@ Process, Priority,, High
 ; ============================================================
 
 ; Поставить запуск от имени администратора файлов AutoHotkeyU64 и AutoHotkeyU64_UIA по пути C:\Program Files\AutoHotkey\v1.1.37.02
-; Посмотреть, не кофликтует ли скрипт с важными горячими клавишами приложений (пример - PowerToys, Ditto, Mahou)
-; В целом все горячие клавиши работают стандартно, в очень редких случаях что-то может не работать, на это влияют сторонние приложения или этот скрипт
-; Горячие клавиши с Ctrl нужно использовать через переназначеный CapsLock → LCtrl. В редких случаях работает только LCtrl, например Ctrl+Alt+Delete
+; Установить RU раскладку из папки "russian_fix_altgr"; перезагрузить ПК; Параметры → Время и язык → Язык и регион → Русский → Языковые параметры → Клавиатуры - удалить стандартную раскладку, оставить только "Русская без AltGr"
+; Назначить в настройках Windows смену языка на горячие клавиши Alt+Shift+8 = EN; Alt+Shift+9 = RU
+
 ; В Mahou назначить горячие клавиши: Перевод - Alt+Shift+Ctrl; Транслитерация - Ctrl+Win+Alt
 ; В Ditto нужно изменить настройки для вставки без форматирования в Word, т.к. ^+v в нем не поддерживается по умолчанию - ЛКМ и Enter поставить на копирование, удалить типы объектов HTML Format и Rich Text Format
 ; В Word нужно изменить параметр - Файл → Параметры → Дополнительно → Раздел "Вырезание, копирование и вставка" → Снять чекбокс "Показывать кнопки возможностей вставки при вставке содержимого"
-; Есть несущественный баг в RU раскладке - при одновременном зажатии RAlt+LCtrl+любой_символ → отпустить RAlt → ввод любого символа - должны печататься символы, но печатаются буквы. Это из-за AltGr в RU раскладке. Баг можно починить только созданием RU раскладки в MSKLC с обычным RAlt (не забыть поменять в функции определения раскладки код RU)
+
+; Посмотреть, не конфликтует ли скрипт с важными горячими клавишами приложений (например - PowerToys, Ditto, Mahou)
+
+; Через RAlt не работают стандартные горячие клавиши из-за слоя NumPad
+; Горячие клавиши с Ctrl нужно использовать через CapsLock → LCtrl. В редких случаях работает только LCtrl, например Ctrl+Alt+Delete
+; В целом все горячие клавиши работают стандартно, в редких случаях что-то может не работать, на это влияют этот скрипт или сторонние приложения
 
 
-; ===== Фикс слоя Ctrl =====
+; ===== Фикс залипания слоя Ctrl =====
 ~*RCtrl Up::
     if GetKeyState("SC01D", "P")
     {
@@ -80,7 +85,6 @@ SC151::SendInput ^{PrintScreen}  ; PgDn → Ctrl+PrtScn - Включить ZoomI
 ; СМЕНА ЯЗЫКА
 ; ============================================================
 
-; Назначить в настройках Windows смену языка на горячие клавиши Alt+Shift+8 = EN; Alt+Shift+9 = RU
 SC00C::Send, !+8  ; - → EN
 SC00D::Send, !+8  ; = → EN
 SC02B::Send, !+9  ; \ → RU
@@ -95,61 +99,61 @@ SC02B::Send, !+9  ; \ → RU
 #If !GetKeyState("RCtrl", "P")
 
 ; ----- Цифры -----
-SC01D & SC002::Send {Blind}{SC01D Up}{«}          ; 1    → «
-SC01D & SC003::Send {Blind}{SC01D Up}{»}          ; 2    → »
-SC01D & SC004::Send {Blind}{SC01D Up}{„}		  ; 3    → „
-SC01D & SC005::Send {Blind}{SC01D Up}{“}		  ; 4    → “
-SC01D & SC006::Send {Blind}{SC01D Up}{Ь}          ; 5    → Ь
-SC01D & SC007::Send {Blind}{SC01D Up}{Ъ}          ; 6    → Ъ
-SC01D & SC008::Send {Blind}{SC01D Up}{≈}          ; 7    → ≈
-SC01D & SC009::Send {Blind}{SC01D Up}{↔}          ; 8    → ↔
-SC01D & SC00A::Send {Blind}{SC01D Up}{←}          ; 9    → ←
-SC01D & SC00B::Send {Blind}{SC01D Up}{→}          ; 0    → →
-SC01D & SC00C::Return                             ; -    → (блок)
-SC01D & SC00D::Return                             ; =    → (блок)
-SC01D & SC02B::Return                             ; \    → (блок)
+SC01D & SC002::Send {Blind}{SC01D Up}{«}          ; 1 → «
+SC01D & SC003::Send {Blind}{SC01D Up}{»}          ; 2 → »
+SC01D & SC004::Send {Blind}{SC01D Up}{„}          ; 3 → „
+SC01D & SC005::Send {Blind}{SC01D Up}{“}          ; 4 → “
+SC01D & SC006::Send {Blind}{SC01D Up}{Ь}          ; 5 → Ь
+SC01D & SC007::Send {Blind}{SC01D Up}{Ъ}          ; 6 → Ъ
+SC01D & SC008::Send {Blind}{SC01D Up}{≈}          ; 7 → ≈
+SC01D & SC009::Send {Blind}{SC01D Up}{↔}          ; 8 → ↔
+SC01D & SC00A::Send {Blind}{SC01D Up}{←}          ; 9 → ←
+SC01D & SC00B::Send {Blind}{SC01D Up}{→}          ; 0 → →
+SC01D & SC00C::Return                             ; - → (блок)
+SC01D & SC00D::Return                             ; = → (блок)
+SC01D & SC02B::Return                             ; \ → (блок)
 
 ; ----- Верхний ряд -----
-SC01D & SC010::Send {Blind}{SC01D Up}{!}          ; q    → !
-SC01D & SC011::Send {Blind}{SC01D Up}{&}          ; w    → &
-SC01D & SC012::Send {Blind}{SC01D Up}{\}          ; e    → \
-SC01D & SC013::Send {Blind}{SC01D Up}{/}          ; r    → /
-SC01D & SC014::Send {Blind}{SC01D Up}{ё}          ; t    → ё
-SC01D & SC015::Send {Blind}{SC01D Up}{Ё}          ; y    → Ё
-SC01D & SC016::Send {Blind}{SC01D Up}{_}          ; u    → _
-SC01D & SC017::Send {Blind}{SC01D Up}{*}          ; i    → *
-SC01D & SC018::Send {Blind}{SC01D Up}{#}          ; o    → #
-SC01D & SC019::Send {Blind}{SC01D Up}{$}          ; p    → $
-SC01D & SC01A::Send {Blind}{SC01D Up}{=}          ; [    → =
-SC01D & SC01B::Send {Blind}{SC01D Up}{№}          ; ]    → №
+SC01D & SC010::Send {Blind}{SC01D Up}{!}          ; q → !
+SC01D & SC011::Send {Blind}{SC01D Up}{&}          ; w → &
+SC01D & SC012::Send {Blind}{SC01D Up}{\}          ; e → \
+SC01D & SC013::Send {Blind}{SC01D Up}{/}          ; r → /
+SC01D & SC014::Send {Blind}{SC01D Up}{ё}          ; t → ё
+SC01D & SC015::Send {Blind}{SC01D Up}{Ё}          ; y → Ё
+SC01D & SC016::Send {Blind}{SC01D Up}{_}          ; u → _
+SC01D & SC017::Send {Blind}{SC01D Up}{*}          ; i → *
+SC01D & SC018::Send {Blind}{SC01D Up}{#}          ; o → #
+SC01D & SC019::Send {Blind}{SC01D Up}{$}          ; p → $
+SC01D & SC01A::Send {Blind}{SC01D Up}{=}          ; [ → =
+SC01D & SC01B::Send {Blind}{SC01D Up}{№}          ; ] → №
 
 ; ----- Средний ряд -----
-SC01D & SC01E::Send {Blind}{SC01D Up}{?}          ; a    → ?
-SC01D & SC01F::Send {Blind}{SC01D Up}{"}          ; s    → "
-SC01D & SC020::Send {Blind}{SC01D Up}{`{}         ; d    → {
-SC01D & SC021::Send {Blind}{SC01D Up}{`}}         ; f    → }
-SC01D & SC022::Send {Blind}{SC01D Up}{~}          ; g    → `
-SC01D & SC023::Send {Blind}{SC01D Up}{``}         ; h    → `
-SC01D & SC024::Send {Blind}{SC01D Up}{(}          ; j    → (
-SC01D & SC025::Send {Blind}{SC01D Up}{)}          ; k    → )
-SC01D & SC026::Send {Blind}{SC01D Up}{+}          ; l    → +
-SC01D & SC027::Send {Blind}{SC01D Up}{-}          ; ;    → -
-SC01D & SC028::Send {Blind}{SC01D Up}{'}          ; '    → '
+SC01D & SC01E::Send {Blind}{SC01D Up}{?}          ; a → ?
+SC01D & SC01F::Send {Blind}{SC01D Up}{"}          ; s → "
+SC01D & SC020::Send {Blind}{SC01D Up}{`{}         ; d → {
+SC01D & SC021::Send {Blind}{SC01D Up}{`}}         ; f → }
+SC01D & SC022::Send {Blind}{SC01D Up}{~}          ; g → ~
+SC01D & SC023::Send {Blind}{SC01D Up}{``}         ; h → `
+SC01D & SC024::Send {Blind}{SC01D Up}{(}          ; j → (
+SC01D & SC025::Send {Blind}{SC01D Up}{)}          ; k → )
+SC01D & SC026::Send {Blind}{SC01D Up}{+}          ; l → +
+SC01D & SC027::Send {Blind}{SC01D Up}{-}          ; ; → -
+SC01D & SC028::Send {Blind}{SC01D Up}{'}          ; ' → ' ; Оставить для фикса
 
 ; ----- Нижний ряд -----
-SC01D & SC02C::Send {Blind}{SC01D Up}{`%}         ; z    → %
-SC01D & SC02D::Send {Blind}{SC01D Up}{@}          ; x    → @
-SC01D & SC02E::Send {Blind}{SC01D Up}{[}          ; c    → [
-SC01D & SC02F::Send {Blind}{SC01D Up}{]}          ; v    → ]
-SC01D & SC030::Send {Blind}{SC01D Up}{Backspace}  ; b    → Backspace
-SC01D & SC031::Send {Blind}{SC01D Up}{Backspace}  ; n    → Backspace
-SC01D & SC032::Send {Blind}{SC01D Up}{<}          ; m    → <
-SC01D & SC033::Send {Blind}{SC01D Up}{>}          ; ,    → >
-SC01D & SC034::Send {Blind}{SC01D Up}{|}          ; .    → |
-SC01D & SC035::Send {Blind}{SC01D Up}{^}          ; /    → ^
+SC01D & SC02C::Send {Blind}{SC01D Up}{`%}         ; z → %
+SC01D & SC02D::Send {Blind}{SC01D Up}{@}          ; x → @
+SC01D & SC02E::Send {Blind}{SC01D Up}{[}          ; c → [
+SC01D & SC02F::Send {Blind}{SC01D Up}{]}          ; v → ]
+SC01D & SC030::Send {Blind}{SC01D Up}{Backspace}  ; b → Backspace
+SC01D & SC031::Send {Blind}{SC01D Up}{Backspace}  ; n → Backspace
+SC01D & SC032::Send {Blind}{SC01D Up}{<}          ; m → <
+SC01D & SC033::Send {Blind}{SC01D Up}{>}          ; , → >
+SC01D & SC034::Send {Blind}{SC01D Up}{|}          ; . → |
+SC01D & SC035::Send {Blind}{SC01D Up}{^}          ; / → ^
 
 ; ----- Служебные -----
-SC01D & SC00E::Send {Blind}{SC01D Up}{Backspace}  ; Backspace прожимается как обычно
+SC01D & SC00E::Send {Blind}{SC01D Up}{Backspace}  ; Backspace → Backspace
 SC01D & SC039::Send {Blind}{SC01D Up}{Space}      ; Space → Space
 #If
 
@@ -159,71 +163,70 @@ SC01D & SC039::Send {Blind}{SC01D Up}{Space}      ; Space → Space
 #If !GetKeyState("SC01D", "P")
 
 ; ----- Цифры -----
-RCtrl & SC002::Send {Blind}{RCtrl Up}{«}          ; 1    → «
-RCtrl & SC003::Send {Blind}{RCtrl Up}{»}          ; 2    → »
-RCtrl & SC004::Send {Blind}{RCtrl Up}{„}		  ; 3    → „
-RCtrl & SC005::Send {Blind}{RCtrl Up}{“}		  ; 4    → “
-RCtrl & SC006::Send {Blind}{RCtrl Up}{Ь}          ; 5    → Ь
-RCtrl & SC007::Send {Blind}{RCtrl Up}{Ъ}          ; 6    → Ъ
-RCtrl & SC008::Send {Blind}{RCtrl Up}{≈}          ; 7    → ≈
-RCtrl & SC009::Send {Blind}{RCtrl Up}{↔}          ; 8    → ↔
-RCtrl & SC00A::Send {Blind}{RCtrl Up}{←}          ; 9    → ←
-RCtrl & SC00B::Send {Blind}{RCtrl Up}{→}          ; 0    → →
-RCtrl & SC00C::Return                             ; -    → (блок)
-RCtrl & SC00D::Return                             ; =    → (блок)
-RCtrl & SC02B::Return                             ; \    → (блок)
+RCtrl & SC002::Send {Blind}{RCtrl Up}{«}          ; 1 → «
+RCtrl & SC003::Send {Blind}{RCtrl Up}{»}          ; 2 → »
+RCtrl & SC004::Send {Blind}{RCtrl Up}{„}          ; 3 → „
+RCtrl & SC005::Send {Blind}{RCtrl Up}{“}          ; 4 → “
+RCtrl & SC006::Send {Blind}{RCtrl Up}{Ь}          ; 5 → Ь
+RCtrl & SC007::Send {Blind}{RCtrl Up}{Ъ}          ; 6 → Ъ
+RCtrl & SC008::Send {Blind}{RCtrl Up}{≈}          ; 7 → ≈
+RCtrl & SC009::Send {Blind}{RCtrl Up}{↔}          ; 8 → ↔
+RCtrl & SC00A::Send {Blind}{RCtrl Up}{←}          ; 9 → ←
+RCtrl & SC00B::Send {Blind}{RCtrl Up}{→}          ; 0 → →
+RCtrl & SC00C::Return                             ; - → (блок)
+RCtrl & SC00D::Return                             ; = → (блок)
+RCtrl & SC02B::Return                             ; \ → (блок)
 
 ; ----- Верхний ряд -----
-RCtrl & SC010::Send {Blind}{RCtrl Up}{!}          ; q    → !
-RCtrl & SC011::Send {Blind}{RCtrl Up}{&}          ; w    → &
-RCtrl & SC012::Send {Blind}{RCtrl Up}{\}          ; e    → \
-RCtrl & SC013::Send {Blind}{RCtrl Up}{/}          ; r    → /
-RCtrl & SC014::Send {Blind}{RCtrl Up}{ё}          ; t    → ё
-RCtrl & SC015::Send {Blind}{RCtrl Up}{Ё}          ; y    → Ё
-RCtrl & SC016::Send {Blind}{RCtrl Up}{_}          ; u    → _
-RCtrl & SC017::Send {Blind}{RCtrl Up}{*}          ; i    → *
-RCtrl & SC018::Send {Blind}{RCtrl Up}{#}          ; o    → #
-RCtrl & SC019::Send {Blind}{RCtrl Up}{$}          ; p    → $
-RCtrl & SC01A::Send {Blind}{RCtrl Up}{=}          ; [    → =
-RCtrl & SC01B::Send {Blind}{RCtrl Up}{№}          ; ]    → №
+RCtrl & SC010::Send {Blind}{RCtrl Up}{!}          ; q → !
+RCtrl & SC011::Send {Blind}{RCtrl Up}{&}          ; w → &
+RCtrl & SC012::Send {Blind}{RCtrl Up}{\}          ; e → \
+RCtrl & SC013::Send {Blind}{RCtrl Up}{/}          ; r → /
+RCtrl & SC014::Send {Blind}{RCtrl Up}{ё}          ; t → ё
+RCtrl & SC015::Send {Blind}{RCtrl Up}{Ё}          ; y → Ё
+RCtrl & SC016::Send {Blind}{RCtrl Up}{_}          ; u → _
+RCtrl & SC017::Send {Blind}{RCtrl Up}{*}          ; i → *
+RCtrl & SC018::Send {Blind}{RCtrl Up}{#}          ; o → #
+RCtrl & SC019::Send {Blind}{RCtrl Up}{$}          ; p → $
+RCtrl & SC01A::Send {Blind}{RCtrl Up}{=}          ; [ → =
+RCtrl & SC01B::Send {Blind}{RCtrl Up}{№}          ; ] → №
 
 ; ----- Средний ряд -----
-RCtrl & SC01E::Send {Blind}{RCtrl Up}{?}          ; a    → ?
-RCtrl & SC01F::Send {Blind}{RCtrl Up}{"}          ; s    → "
-RCtrl & SC020::Send {Blind}{RCtrl Up}{`{}         ; d    → {
-RCtrl & SC021::Send {Blind}{RCtrl Up}{`}}         ; f    → }
-RCtrl & SC022::Send {Blind}{RCtrl Up}{~}          ; g    → `
-RCtrl & SC023::Send {Blind}{RCtrl Up}{``}         ; h    → `
-RCtrl & SC024::Send {Blind}{RCtrl Up}{(}          ; j    → (
-RCtrl & SC025::Send {Blind}{RCtrl Up}{)}          ; k    → )
-RCtrl & SC026::Send {Blind}{RCtrl Up}{+}          ; l    → +
-RCtrl & SC027::Send {Blind}{RCtrl Up}{-}          ; ;    → -
-RCtrl & SC028::Send {Blind}{RCtrl Up}{'}          ; '    → '
+RCtrl & SC01E::Send {Blind}{RCtrl Up}{?}          ; a → ?
+RCtrl & SC01F::Send {Blind}{RCtrl Up}{"}          ; s → "
+RCtrl & SC020::Send {Blind}{RCtrl Up}{`{}         ; d → {
+RCtrl & SC021::Send {Blind}{RCtrl Up}{`}}         ; f → }
+RCtrl & SC022::Send {Blind}{RCtrl Up}{~}          ; g → ~
+RCtrl & SC023::Send {Blind}{RCtrl Up}{``}         ; h → `
+RCtrl & SC024::Send {Blind}{RCtrl Up}{(}          ; j → (
+RCtrl & SC025::Send {Blind}{RCtrl Up}{)}          ; k → )
+RCtrl & SC026::Send {Blind}{RCtrl Up}{+}          ; l → +
+RCtrl & SC027::Send {Blind}{RCtrl Up}{-}          ; ; → -
+RCtrl & SC028::Send {Blind}{RCtrl Up}{'}          ; ' → ' ; Оставить для фикса
 
 ; ----- Нижний ряд -----
-RCtrl & SC02C::Send {Blind}{RCtrl Up}{`%}         ; z    → %
-RCtrl & SC02D::Send {Blind}{RCtrl Up}{@}          ; x    → @
-RCtrl & SC02E::Send {Blind}{RCtrl Up}{[}          ; c    → [
-RCtrl & SC02F::Send {Blind}{RCtrl Up}{]}          ; v    → ]
-RCtrl & SC030::Send {Blind}{RCtrl Up}{Backspace}  ; b    → Backspace
-RCtrl & SC031::Send {Blind}{RCtrl Up}{Backspace}  ; n    → Backspace
-RCtrl & SC032::Send {Blind}{RCtrl Up}{<}          ; m    → <
-RCtrl & SC033::Send {Blind}{RCtrl Up}{>}          ; ,    → >
-RCtrl & SC034::Send {Blind}{RCtrl Up}{|}          ; .    → |
-RCtrl & SC035::Send {Blind}{RCtrl Up}{^}          ; /    → ^
+RCtrl & SC02C::Send {Blind}{RCtrl Up}{`%}         ; z → %
+RCtrl & SC02D::Send {Blind}{RCtrl Up}{@}          ; x → @
+RCtrl & SC02E::Send {Blind}{RCtrl Up}{[}          ; c → [
+RCtrl & SC02F::Send {Blind}{RCtrl Up}{]}          ; v → ]
+RCtrl & SC030::Send {Blind}{RCtrl Up}{Backspace}  ; b → Backspace
+RCtrl & SC031::Send {Blind}{RCtrl Up}{Backspace}  ; n → Backspace
+RCtrl & SC032::Send {Blind}{RCtrl Up}{<}          ; m → <
+RCtrl & SC033::Send {Blind}{RCtrl Up}{>}          ; , → >
+RCtrl & SC034::Send {Blind}{RCtrl Up}{|}          ; . → |
+RCtrl & SC035::Send {Blind}{RCtrl Up}{^}          ; / → ^
 
 ; ----- Служебные -----
-RCtrl & SC00E::Send {Blind}{RCtrl Up}{Backspace}  ; Backspace прожимается как обычно
+RCtrl & SC00E::Send {Blind}{RCtrl Up}{Backspace}  ; Backspace → Backspace
 RCtrl & SC039::Send {Blind}{RCtrl Up}{Space}      ; Space → Space
 #If
 
 
-; ===== ТОЧЕЧНОЕ ГЛУШЕНИЕ КЛАВИШ ИЗ СЛОЕВ ПРИ ДВУХ ЗАЖАТЫХ CTRL =====
+; ===== ТОЧЕЧНОЕ ГЛУШЕНИЕ КЛАВИШ ПРИ ДВУХ ЗАЖАТЫХ CTRL =====
 
 #If GetKeyState("SC01D", "P") && GetKeyState("RCtrl", "P")
 
 ; ----- Цифры -----
-; Цифры и знаки верхнего ряда
 *SC002:: ; 1
 *SC003:: ; 2
 *SC004:: ; 3
@@ -237,7 +240,6 @@ RCtrl & SC039::Send {Blind}{RCtrl Up}{Space}      ; Space → Space
 *SC00C:: ; -
 *SC00D:: ; =
 *SC02B:: ; \
-*SC00E:: ; Backspace
 
 ; ----- Верхний ряд -----
 *SC010:: ; q
@@ -280,13 +282,14 @@ RCtrl & SC039::Send {Blind}{RCtrl Up}{Space}      ; Space → Space
 
 ; ----- Служебные -----
 *SC039:: ; Space
+*SC00E:: ; Backspace
 
 #If
 
 
 ; ===== Навигация =====
 
-SC029::Send {}  ; ` → (пусто)
+SC029::Return  ; ` → Слой Навигации
 
 ; ----- Стрелки -----
 SC029 & SC017::Send {Blind}{SC029 Up}{Up}  		  ; i → Up
@@ -302,6 +305,25 @@ SC029 & SC018::Send {Blind}{SC029 Up}{PgDn}  	  ; o → PgDn
 SC029 & SC019::Send {Blind}{SC029 Up}{PgDn}  	  ; p → PgDn
 
 ; ----- Служебные -----
+; ----- Цифры -----
+SC029 & SC002::LAlt    ; 1 → LAlt
+SC029 & SC003::LAlt    ; 2 → LAlt
+SC029 & SC004::LAlt    ; 3 → LAlt
+SC029 & SC005::LAlt    ; 4 → LAlt
+
+; ----- Верхний ряд -----
+SC029 & SC010::LCtrl   ; q → LCtrl
+SC029 & SC012::LCtrl   ; e → LCtrl
+SC029 & SC011::LCtrl   ; w → LCtrl
+SC029 & SC013::LCtrl   ; r → LCtrl
+
+; ----- Средний ряд -----
+SC029 & SC01E::LShift  ; a → LShift
+SC029 & SC021::LShift  ; f → LShift
+SC029 & SC020::LShift  ; d → LShift
+SC029 & SC01F::LShift  ; s → LShift
+
+; ----- Нижний ряд -----
 SC029 & SC032::Send {Blind}{SC029 Up}{Backspace}  ; m → Backspace
 SC029 & SC031::Send {Blind}{SC029 Up}{Backspace}  ; n → Backspace
 SC029 & SC030::Send {Blind}{SC029 Up}{Backspace}  ; b → Backspace
@@ -309,20 +331,8 @@ SC029 & SC02F::Send {Blind}{SC029 Up}{Backspace}  ; v → Backspace
 SC029 & SC02E::Send {Blind}{SC029 Up}{Backspace}  ; c → Backspace
 SC029 & SC02D::Send {Blind}{SC029 Up}{Backspace}  ; x → Backspace
 SC029 & SC02C::Send {Blind}{SC029 Up}{Backspace}  ; z → Backspace
-SC029 & SC002::LAlt    ; 1 → LAlt
-SC029 & SC003::LAlt    ; 2 → LAlt
-SC029 & SC004::LAlt    ; 3 → LAlt
-SC029 & SC005::LAlt    ; 4 → LAlt
-SC029 & SC010::LCtrl   ; q → LCtrl
-SC029 & SC012::LCtrl   ; e → LCtrl
-SC029 & SC011::LCtrl   ; w → LCtrl
-SC029 & SC013::LCtrl   ; r → LCtrl
-SC029 & SC01E::LShift  ; a → LShift
-SC029 & SC021::LShift  ; f → LShift
-SC029 & SC020::LShift  ; d → LShift
-SC029 & SC01F::LShift  ; s → LShift
 
-; ----- заглушки -----
+; ----- Заглушки -----
 SC029 & SC006::Return  ; 5 → (блок)
 SC029 & SC007::Return  ; 6 → (блок)
 SC029 & SC008::Return  ; 7 → (блок)
@@ -339,10 +349,24 @@ SC029 & SC022::Return  ; g → (блок)
 SC029 & SC033::Return  ; , → (блок)
 SC029 & SC034::Return  ; . → (блок)
 SC029 & SC035::Return  ; / → (блок)
+SC029 & RCtrl::Return  ; RCtrl → (блок)
+
+
+; ----- Фикс залипания Слоя Навигации+RCtrl -----
+~*SC029 Up::
+    if GetKeyState("RCtrl", "P")
+    {
+        Send {Blind}{RCtrl Up}
+        KeyWait, RCtrl, T0.01
+        if GetKeyState("RCtrl", "P")
+        {
+            dllcall("keybd_event", int, 0x11, int, 0x11D, int, 1, int, 0)
+        }
+    }
+return
 
 
 ; ===== NumPad =====
-; Через RAlt не работают стандартные горячие клавиши
 
 *RAlt::
     layer := true
@@ -368,11 +392,11 @@ return
     SC013::Send {9}  ; r → 9
 
     ; ----- Символы -----
-    SC02A::Send {,}          ; LShift → ,
-    SC038::Send {.}          ; LAlt   → .
-    SC022::Send {+}          ; g      → +
-    SC014::Send {-}          ; t      → -
-    SC010::Send {*}          ; q      → *
+    SC02A::Send {Text},      ; LShift → ,
+    SC038::Send {Text}.      ; LAlt   → .
+    SC022::Send {Text}+      ; g      → +
+    SC014::Send {Text}-      ; t      → -
+    SC010::Send {Text}*      ; q      → *
     SC02C::Send {NumpadDiv}  ; z      → NumpadDiv
 
     ; ----- Стрелки -----
@@ -389,7 +413,6 @@ return
     SC019::Send {PgDn}   ; p → PgDn
 
     ; ----- Служебные -----
-    SC01D::Send {Enter}      ; LCtrl → Enter
     SC030::Send {Backspace}  ; b     → Backspace
     SC031::Send {Backspace}  ; n     → Backspace
     SC032::Send {Backspace}  ; m     → Backspace
@@ -405,8 +428,28 @@ return
     SC033::Return  ; , → (блок)
     SC034::Return  ; . → (блок)
     SC035::Return  ; / → (блок)
+	SC01D::Return     ; LCtrl → (блок) - оставить для фикса залипания
 
 #If
+
+
+; ============================================================
+; ОТКЛЮЧЕНИЕ СЛОЯ SHIFT В РЯДЕ ЦИФР
+; ============================================================
+
+$+SC002::Return  ; Shift+1 → (блок)
+$+SC003::Return  ; Shift+2 → (блок)
+$+SC004::Return  ; Shift+3 → (блок)
+$+SC005::Return  ; Shift+4 → (блок)
+$+SC006::Return  ; Shift+5 → (блок)
+$+SC007::Return  ; Shift+6 → (блок)
+$+SC008::Return  ; Shift+7 → (блок)
+$+SC009::Return  ; Shift+8 → (блок)
+$+SC00A::Return  ; Shift+9 → (блок)
+$+SC00B::Return  ; Shift+0 → (блок)
+$+SC00C::Return  ; Shift+- → (блок)
+$+SC00D::Return  ; Shift+= → (блок)
+$+SC02B::Return  ; Shift+\ → (блок)
 
 
 ; ============================================================
@@ -473,8 +516,10 @@ return
 
 	$SC019::return       ; p → (блок)
 	$+SC019::return      ; P → (блок)
+	
 	$SC01A::return       ; [ → (блок)
 	$+SC01A::return      ; { → (блок)
+	
 	$SC01B::return       ; ] → (блок)
 	$+SC01B::return      ; } → (блок)
 
@@ -528,7 +573,9 @@ return
 	$+SC032::Send % GetKeyState("CapsLock", "T") ? "h" : "H"  ; M → H
 
 	$+SC033::Send `;  ; < → ;
+	
 	$+SC034::Send :   ; > → :
+	
 	$SC035::return       ; / → (блок)
 	$+SC035::return      ; ? → (блок)
 
@@ -549,30 +596,11 @@ GetLayout() {
     ThreadID := DllCall("user32\GetWindowThreadProcessId", "Ptr", WinID, "UInt", 0, "UInt")
     if (ThreadID) {
         layout := DllCall("user32\GetKeyboardLayout", "Ptr", ThreadID, "Ptr") & 0xFFFF
-        if (layout = 1049)  ; Десятичный код русской раскладки
+        if (layout = 1049)
             return "RU"
-        if (layout = 1033)  ; Десятичный код английской раскладки
+        if (layout = 1033)
             return "EN"
     }
     return "EN"
 }
-
-
-; ============================================================
-; ОТКЛЮЧЕНИЕ СЛОЯ SHIFT В РЯДЕ ЦИФР
-; ============================================================
-
-$+SC002::Return  ; Shift+1 → (блок)
-$+SC003::Return  ; Shift+2 → (блок)
-$+SC004::Return  ; Shift+3 → (блок)
-$+SC005::Return  ; Shift+4 → (блок)
-$+SC006::Return  ; Shift+5 → (блок)
-$+SC007::Return  ; Shift+6 → (блок)
-$+SC008::Return  ; Shift+7 → (блок)
-$+SC009::Return  ; Shift+8 → (блок)
-$+SC00A::Return  ; Shift+9 → (блок)
-$+SC00B::Return  ; Shift+0 → (блок)
-$+SC00C::Return  ; Shift+- → (блок)
-$+SC00D::Return  ; Shift+= → (блок)
-$+SC02B::Return  ; Shift+\ → (блок)
 
