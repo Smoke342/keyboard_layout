@@ -328,12 +328,9 @@ SC029 & SC008::Return  ; 7 → (блок)
 SC029 & SC009::Return  ; 8 → (блок)
 SC029 & SC00A::Return  ; 9 → (блок)
 SC029 & SC00B::Return  ; 0 → (блок)
-SC029 & SC00C::Return  ; - → (блок)
-SC029 & SC00D::Return  ; = → (блок)
 SC029 & SC014::Return  ; t → (блок)
 SC029 & SC01A::Return  ; [ → (блок)
 SC029 & SC01B::Return  ; ] → (блок)
-SC029 & SC02B::Return  ; \ → (блок)
 SC029 & SC022::Return  ; g → (блок)
 SC029 & SC033::Return  ; , → (блок)
 SC029 & SC034::Return  ; . → (блок)
@@ -411,9 +408,6 @@ return
     SC001::Send {Esc}        ; Esc   → Esc
 
     ; ----- Заглушки -----
-    SC00C::Return  ; - → (блок)
-    SC00D::Return  ; = → (блок)
-    SC02B::Return  ; \ → (блок)
     SC01A::Return  ; [ → (блок)
     SC01B::Return  ; ] → (блок)
     SC033::Return  ; , → (блок)
