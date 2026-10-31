@@ -1,4 +1,4 @@
-﻿#Requires AutoHotkey v2+
+#Requires AutoHotkey v2+
 #SingleInstance FORCE
 SendMode("Input")
 SetWorkingDir(A_ScriptDir)
@@ -123,16 +123,16 @@ SC01D & SC02B::Return                                ; \ → (блок)
 
 ; ----- Верхний ряд -----
 SC01D & SC010::Send("{Blind}{SC01D Up}{!}")          ; q → !
-SC01D & SC011::Send("{Blind}{SC01D Up}{&}")          ; w → &
-SC01D & SC012::Send("{Blind}{SC01D Up}{\}")          ; e → \
-SC01D & SC013::Send("{Blind}{SC01D Up}{/}")          ; r → /
+SC01D & SC011::Send("{Blind}{SC01D Up}{+}")          ; w → +
+SC01D & SC012::Send("{Blind}{SC01D Up}{#}")          ; e → #
+SC01D & SC013::Send("{Blind}{SC01D Up}{$}")          ; r → $
 SC01D & SC014::Send("{Blind}{SC01D Up}{ё}")          ; t → ё
 SC01D & SC015::Send("{Blind}{SC01D Up}{Ё}")          ; y → Ё
-SC01D & SC016::Send("{Blind}{SC01D Up}{_}")          ; u → _
-SC01D & SC017::Send("{Blind}{SC01D Up}{*}")          ; i → *
-SC01D & SC018::Send("{Blind}{SC01D Up}{#}")          ; o → #
-SC01D & SC019::Send("{Blind}{SC01D Up}{$}")          ; p → $
-SC01D & SC01A::Send("{Blind}{SC01D Up}{=}")          ; [ → =
+SC01D & SC016::Send("{Blind}{SC01D Up}{*}")          ; u → *
+SC01D & SC017::Send("{Blind}{SC01D Up}{&}")          ; i → &
+SC01D & SC018::Send("{Blind}{SC01D Up}{=}")          ; o → =
+SC01D & SC019::Send("{Blind}{SC01D Up}{|}")          ; p → |
+SC01D & SC01A::Send("{Blind}{SC01D Up}{^}")          ; [ → ^
 SC01D & SC01B::Send("{Blind}{SC01D Up}{№}")          ; ] → №
 
 ; ----- Средний ряд -----
@@ -144,9 +144,9 @@ SC01D & SC022::Send("{Blind}{SC01D Up}{~}")          ; g → ~
 SC01D & SC023::Send("{Blind}{SC01D Up}{``}")         ; h → `
 SC01D & SC024::Send("{Blind}{SC01D Up}{(}")          ; j → (
 SC01D & SC025::Send("{Blind}{SC01D Up}{)}")          ; k → )
-SC01D & SC026::Send("{Blind}{SC01D Up}{+}")          ; l → +
+SC01D & SC026::Send("{Blind}{SC01D Up}{_}")          ; l → _
 SC01D & SC027::Send("{Blind}{SC01D Up}{-}")          ; ; → -
-SC01D & SC028::Send("{Blind}{SC01D Up}{'}")          ; ' → ' ; Оставить для фикса
+SC01D & SC028::Send("{Blind}{SC01D Up}{'}")          ; ' → '
 
 ; ----- Нижний ряд -----
 SC01D & SC02C::Send("{Blind}{SC01D Up}{`%}")         ; z → %
@@ -157,8 +157,8 @@ SC01D & SC030::Send("{Blind}{SC01D Up}{Backspace}")  ; b → Backspace
 SC01D & SC031::Send("{Blind}{SC01D Up}{Backspace}")  ; n → Backspace
 SC01D & SC032::Send("{Blind}{SC01D Up}{<}")          ; m → <
 SC01D & SC033::Send("{Blind}{SC01D Up}{>}")          ; , → >
-SC01D & SC034::Send("{Blind}{SC01D Up}{|}")          ; . → |
-SC01D & SC035::Send("{Blind}{SC01D Up}{^}")          ; / → ^
+SC01D & SC034::Send("{Blind}{SC01D Up}{/}")          ; . → /
+SC01D & SC035::Send("{Blind}{SC01D Up}{\}")          ; / → \
 
 ; ----- Служебные -----
 SC01D & SC00E::Send("{Blind}{SC01D Up}{Backspace}")  ; Backspace → Backspace
@@ -188,16 +188,16 @@ RCtrl & SC02B::Return                                ; \ → (блок)
 
 ; ----- Верхний ряд -----
 RCtrl & SC010::Send("{Blind}{RCtrl Up}{!}")          ; q → !
-RCtrl & SC011::Send("{Blind}{RCtrl Up}{&}")          ; w → &
-RCtrl & SC012::Send("{Blind}{RCtrl Up}{\}")          ; e → \
-RCtrl & SC013::Send("{Blind}{RCtrl Up}{/}")          ; r → /
+RCtrl & SC011::Send("{Blind}{RCtrl Up}{+}")          ; w → +
+RCtrl & SC012::Send("{Blind}{RCtrl Up}{#}")          ; e → #
+RCtrl & SC013::Send("{Blind}{RCtrl Up}{$}")          ; r → $
 RCtrl & SC014::Send("{Blind}{RCtrl Up}{ё}")          ; t → ё
 RCtrl & SC015::Send("{Blind}{RCtrl Up}{Ё}")          ; y → Ё
-RCtrl & SC016::Send("{Blind}{RCtrl Up}{_}")          ; u → _
-RCtrl & SC017::Send("{Blind}{RCtrl Up}{*}")          ; i → *
-RCtrl & SC018::Send("{Blind}{RCtrl Up}{#}")          ; o → #
-RCtrl & SC019::Send("{Blind}{RCtrl Up}{$}")          ; p → $
-RCtrl & SC01A::Send("{Blind}{RCtrl Up}{=}")          ; [ → =
+RCtrl & SC016::Send("{Blind}{RCtrl Up}{*}")          ; u → *
+RCtrl & SC017::Send("{Blind}{RCtrl Up}{&}")          ; i → &
+RCtrl & SC018::Send("{Blind}{RCtrl Up}{=}")          ; o → =
+RCtrl & SC019::Send("{Blind}{RCtrl Up}{|}")          ; p → |
+RCtrl & SC01A::Send("{Blind}{RCtrl Up}{^}")          ; [ → ^
 RCtrl & SC01B::Send("{Blind}{RCtrl Up}{№}")          ; ] → №
 
 ; ----- Средний ряд -----
@@ -209,9 +209,9 @@ RCtrl & SC022::Send("{Blind}{RCtrl Up}{~}")          ; g → ~
 RCtrl & SC023::Send("{Blind}{RCtrl Up}{``}")         ; h → `
 RCtrl & SC024::Send("{Blind}{RCtrl Up}{(}")          ; j → (
 RCtrl & SC025::Send("{Blind}{RCtrl Up}{)}")          ; k → )
-RCtrl & SC026::Send("{Blind}{RCtrl Up}{+}")          ; l → +
+RCtrl & SC026::Send("{Blind}{RCtrl Up}{_}")          ; l → _
 RCtrl & SC027::Send("{Blind}{RCtrl Up}{-}")          ; ; → -
-RCtrl & SC028::Send("{Blind}{RCtrl Up}{'}")          ; ' → ' ; Оставить для фикса
+RCtrl & SC028::Send("{Blind}{RCtrl Up}{'}")          ; ' → '
 
 ; ----- Нижний ряд -----
 RCtrl & SC02C::Send("{Blind}{RCtrl Up}{`%}")         ; z → %
@@ -222,8 +222,8 @@ RCtrl & SC030::Send("{Blind}{RCtrl Up}{Backspace}")  ; b → Backspace
 RCtrl & SC031::Send("{Blind}{RCtrl Up}{Backspace}")  ; n → Backspace
 RCtrl & SC032::Send("{Blind}{RCtrl Up}{<}")          ; m → <
 RCtrl & SC033::Send("{Blind}{RCtrl Up}{>}")          ; , → >
-RCtrl & SC034::Send("{Blind}{RCtrl Up}{|}")          ; . → |
-RCtrl & SC035::Send("{Blind}{RCtrl Up}{^}")          ; / → ^
+RCtrl & SC034::Send("{Blind}{RCtrl Up}{/}")          ; . → /
+RCtrl & SC035::Send("{Blind}{RCtrl Up}{\}")          ; / → \
 
 ; ----- Служебные -----
 RCtrl & SC00E::Send("{Blind}{RCtrl Up}{Backspace}")  ; Backspace → Backspace
@@ -291,8 +291,9 @@ RCtrl & SC01C::Send("{Blind}{RCtrl Up}{Enter}")      ; Enter → Enter
 *SC035:: ; /
 
 ; ----- Служебные -----
-*SC039:: ; Space
 *SC00E:: ; Backspace
+*SC039:: ; Space
+*SC01C:: ; Enter
 
 #HotIf
 
@@ -429,15 +430,15 @@ SC029::Return  ; ` → Активируем Слой Навигации
     ; ----- Служебные -----
     SC031::Send("{Backspace}")  ; n     → Backspace
     SC032::Send("{Backspace}")  ; m     → Backspace
+	SC033::Send("{Backspace}")  ; , 	→ Backspace
+    SC034::Send("{Backspace}")  ; . 	→ Backspace
+    SC035::Send("{Backspace}")  ; / 	→ Backspace
     SC039::Send("{Space}")      ; Space → Space
     SC001::Send("{Esc}")        ; Esc   → Esc
 
     ; ----- Заглушки -----
     SC01A::Return  ; [ → (блок)
     SC01B::Return  ; ] → (блок)
-    SC033::Return  ; , → (блок)
-    SC034::Return  ; . → (блок)
-    SC035::Return  ; / → (блок)
 	SC01D::Return  ; LCtrl → (блок) - оставить для фикса залипания
 
 #HotIf
