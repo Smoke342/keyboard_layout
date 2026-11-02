@@ -1,10 +1,10 @@
 #NoEnv
-#SingleInstance FORCE
+#SingleInstance Force
 SendMode Input
 SetWorkingDir %A_ScriptDir%
-Process, Priority,, High
 #KeyHistory 0
-
+ListLines, Off
+Process, Priority,, AboveNormal
 
 
 ; ============================================================
