@@ -64,7 +64,7 @@ return
 ; ===== Другое =====
 SC147::Send {PrintScreen}		 ; Home → PrtScn - Добавлено, т.к. на клавиатуре нет клавиши PrtScn
 SC151::SendInput ^{PrintScreen}  ; PgDn → Ctrl+PrtScn - Включить ZoomIt, настраивается в PowerToys
-#SC01F::Send, +#{SC01F}          ; Win+S - Копирование изображения в буфер обмена
+$#SC01F::Send, +#{SC01F}          ; Win+S - Копирование изображения в буфер обмена
 
 
 
