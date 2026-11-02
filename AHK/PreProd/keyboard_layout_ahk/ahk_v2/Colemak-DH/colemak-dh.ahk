@@ -1,9 +1,10 @@
 #Requires AutoHotkey v2+
-#SingleInstance FORCE
+#SingleInstance Force
 SendMode("Input")
 SetWorkingDir(A_ScriptDir)
-ProcessSetPriority("High")
 KeyHistory(0)
+ListLines(0)
+ProcessSetPriority("AboveNormal")
 
 layer := false
 
