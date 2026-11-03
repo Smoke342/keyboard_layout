@@ -92,7 +92,7 @@ return
 ; ===== Другое =====
 SC147::Send("{PrintScreen}")		; Home → PrtScn - Добавлено, т.к. на клавиатуре нет клавиши PrtScn
 SC151::SendInput("^{PrintScreen}")  ; PgDn → Ctrl+PrtScn - Включить ZoomIt, настраивается в PowerToys
-$#SC01F::Send("+#{SC01F}")           ; Win+S - Копирование изображения в буфер обмена
+$#SC01F::Send("+#{SC01F}")          ; Win+S - Копирование изображения в буфер обмена
 
 
 
@@ -313,7 +313,7 @@ RCtrl & SC01C::Send("{Blind}{RCtrl Up}{Enter}")      ; Enter → Enter
 
 ; Alt в этот слой не назначать, он залипает
 
-SC029::Return  ; ` → Активируем Слой Навигации
+SC029::Return  ; ` → (блок)
 
 #HotIf GetKeyState("SC029", "P")
 
@@ -358,23 +358,23 @@ SC029::Return  ; ` → Активируем Слой Навигации
     *SC02C::Send("{Blind}{Backspace}")   ; z → Backspace
 
     ; ----- Заглушки -----
-	*SC002::Return  ; 1
-    *SC003::Return  ; 2
-    *SC004::Return  ; 3
-    *SC005::Return  ; 4
-    *SC006::Return  ; 5
-    *SC007::Return  ; 6
-    *SC008::Return  ; 7
-    *SC009::Return  ; 8
-    *SC00A::Return  ; 9
-    *SC00B::Return  ; 0
-    *SC014::Return  ; t
-    *SC01A::Return  ; [
-    *SC01B::Return  ; ]
-    *SC022::Return  ; g
-    *SC033::Return  ; ,
-    *SC034::Return  ; .
-    *SC035::Return  ; /
+	*SC002::Return  ; 1 → (блок)
+    *SC003::Return  ; 2 → (блок)
+    *SC004::Return  ; 3 → (блок)
+    *SC005::Return  ; 4 → (блок)
+    *SC006::Return  ; 5 → (блок)
+    *SC007::Return  ; 6 → (блок)
+    *SC008::Return  ; 7 → (блок)
+    *SC009::Return  ; 8 → (блок)
+    *SC00A::Return  ; 9 → (блок)
+    *SC00B::Return  ; 0 → (блок)
+    *SC014::Return  ; t → (блок)
+    *SC01A::Return  ; [ → (блок)
+    *SC01B::Return  ; ] → (блок)
+    *SC022::Return  ; g → (блок)
+    *SC033::Return  ; , → (блок)
+    *SC034::Return  ; . → (блок)
+    *SC035::Return  ; / → (блок)
 
 #HotIf
 
@@ -455,12 +455,12 @@ $*XButton1 Up::
     SC013::Send("{9}")  ; r → 9
 
     ; ----- Символы -----
-	SC022::Send("{Text},")      ; g      → ,
-    SC038::Send("{Text}.")      ; LAlt   → .
-	SC014::Send("{Text}+")      ; t      → +
-	SC030::Send("{Text}-")      ; b      → -
-    SC010::Send("{Text}*")      ; q      → *
-    SC02C::Send("{NumpadDiv}")  ; z      → NumpadDiv
+	SC022::Send("{Text},")      ; g    → ,
+    SC038::Send("{Text}.")      ; LAlt → .
+	SC014::Send("{Text}+")      ; t    → +
+	SC030::Send("{Text}-")      ; b    → -
+    SC010::Send("{Text}*")      ; q    → *
+    SC02C::Send("{NumpadDiv}")  ; z    → NumpadDiv
 
     ; ----- Стрелки -----
     SC017::Send("{Up}")     ; i → Up
@@ -486,9 +486,9 @@ $*XButton1 Up::
     SC001::Send("{Esc}")        ; Esc   → Esc
 
     ; ----- Заглушки -----
-    SC01A::Return  ; [ → (блок)
-    SC01B::Return  ; ] → (блок)
-	SC01D::Return  ; LCtrl → (блок) - оставить для фикса залипания
+    SC01A::Return  ; [ 	   → (блок)
+    SC01B::Return  ; ]	   → (блок)
+	SC01D::Return  ; LCtrl → (блок); оставить для фикса залипания
 
 #HotIf
 
