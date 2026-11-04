@@ -455,12 +455,16 @@ $*XButton1 Up::
     SC013::Send("{9}")  ; r → 9
 
     ; ----- Символы -----
-	SC022::Send("{Text},")      ; g    → ,
-    SC038::Send("{Text}.")      ; LAlt → .
-	SC014::Send("{Text}+")      ; t    → +
-	SC030::Send("{Text}-")      ; b    → -
-    SC010::Send("{Text}*")      ; q    → *
-    SC02C::Send("{NumpadDiv}")  ; z    → NumpadDiv
+	SC022::Send("{Text},")      ; g → ,
+	SC014::Send("{Text}.")  	; t → .
+	SC010::Send("{Text}+")      ; q → +
+    SC02C::Send("{Text}-")      ; z → -
+	SC005::Send("{Text}*") 	 	; 4 → *
+	SC006::Send("{Text}*")  	; 5 → *
+	SC002::Send("{NumpadDiv}")  ; 1 → NumpadDiv
+    SC003::Send("{NumpadDiv}")  ; 2 → NumpadDiv
+
+
 
     ; ----- Стрелки -----
     SC017::Send("{Up}")     ; i → Up
@@ -477,6 +481,7 @@ $*XButton1 Up::
 
     ; ----- Служебные -----
 	SC00F::Send("{Enter}")      ; Tab   → Enter
+	SC030::Send("{Backspace}")  ; b     → Backspace
     SC031::Send("{Backspace}")  ; n     → Backspace
     SC032::Send("{Backspace}")  ; m     → Backspace
 	SC033::Send("{Backspace}")  ; , 	→ Backspace
@@ -486,8 +491,14 @@ $*XButton1 Up::
     SC001::Send("{Esc}")        ; Esc   → Esc
 
     ; ----- Заглушки -----
-    SC01A::Return  ; [ 	   → (блок)
-    SC01B::Return  ; ]	   → (блок)
+	SC004::Return  ; 3 → (блок)
+    SC007::Return  ; 6 → (блок)
+    SC008::Return  ; 7 → (блок)
+    SC009::Return  ; 8 → (блок)
+    SC00A::Return  ; 9 → (блок)
+    SC00B::Return  ; 0 → (блок)
+    SC01A::Return  ; [ → (блок)
+    SC01B::Return  ; ] → (блок)
 	SC01D::Return  ; LCtrl → (блок); оставить для фикса залипания
 
 #HotIf
