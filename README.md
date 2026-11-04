@@ -40,3 +40,6 @@
 Обычно все горячие клавиши работают как в Qwerty раскладке. В очень редких случаях что-то может не работать, на это влияют MSKLC, скрипт AHK или приложения (например [PowerToys](https://github.com/microsoft/powertoys), [Ditto](https://github.com/sabrogden/Ditto), [Mahou](https://gitea.com/BladeMight/Mahou))
 
 Горячие клавиши в приложениях лучше назначать на три кнопки модификаторов `Shift`+`Ctrl`+`Win`+`Alt`
+
+В папке `reserve` есть скрипты языковых раскладок `RUS`+`ENG` и активации слоя NumPad через зажатие `Mouse_4`+`Mouse_5`
+
